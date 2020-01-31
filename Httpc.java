@@ -1,7 +1,3 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -15,8 +11,8 @@ public class Httpc {
             .createConnection()
             .initRequestLine(processor.getMethod())
             .setHeaders(mappedArgs.get("-h"))
-            .setBody(processor.getMappedArgs())
-            .submit();
+            .setBody(mappedArgs)
+            .submit(mappedArgs.containsKey("-v"));
 
         System.out.println(response);
         System.exit(0);

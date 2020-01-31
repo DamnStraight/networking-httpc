@@ -1,13 +1,10 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.URL;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Map;
+import java.util.Scanner;
 
 public class HttpServer {
     public static class HttpServerBuilder {
@@ -70,14 +67,24 @@ public class HttpServer {
             return this;
         }
 
-        public String submit() {
+        public String submit(final boolean verbose) {
             out.write(request.toString());
             out.flush();
 
             request.delete(0, request.length());
 
+            boolean printDetailed = verbose;
+            boolean headerComplete = false;
+
+            String line;
             while (in.hasNextLine()) {
-                request.append(in.nextLine() + "\n");
+                line = in.nextLine();
+
+                if (printDetailed || headerComplete) {
+                    request.append(line + "\n");
+                } else {
+                    headerComplete = line.trim().equals("");
+                }
             }
 
             String temp = request.toString();
@@ -86,9 +93,7 @@ public class HttpServer {
                 socket.close();
                 out.close();
                 in.close();
-            } catch (Exception e) {
-
-            }
+            } catch (Exception e) {}
 
             return temp;
         }
@@ -128,23 +133,7 @@ public class HttpServer {
             String jsonOutput = "";
 
             if (mappedArgs.containsKey("-f")) {
-                // Load file
-                URL path = Httpc.class.getResource(mappedArgs.get("-f").get(0));
-                try (BufferedReader reader = new BufferedReader(new FileReader(new File(path.getFile())))) {
-                    StringBuilder sb = new StringBuilder();
-
-                    String line = reader.readLine();
-
-                    while (line != null) {
-                        sb.append(line);
-                        sb.append("\n");
-                        line = reader.readLine();
-                    }
-
-                    jsonOutput = sb.toString();
-                } catch (Exception e) {
-                    Utils.printErrAndExit(e.getMessage());
-                }
+                return Utils.extractFileContents(mappedArgs.get("-f").get(0));
             } else if (mappedArgs.containsKey("-d")) {
                 jsonOutput = mappedArgs.get("-d").get(0);
             }

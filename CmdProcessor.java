@@ -9,6 +9,7 @@ public class CmdProcessor {
     private HashMap<String, List<String>> mappedArgs;
     private String url;
     private HttpMethod method;
+    private String bodyFlag = null;
 
     public CmdProcessor(final String[] cmdArgs) {
         this.cmdArgs = cmdArgs;
@@ -31,6 +32,10 @@ public class CmdProcessor {
 
     public String getMethod() {
         return this.method.toString();
+    }
+
+    public String getBodyFlag() {
+        return this.bodyFlag;
     }
 
     /**
@@ -81,6 +86,7 @@ public class CmdProcessor {
                 if (arg.equalsIgnoreCase(CmdArgs.FILE_DATA.asFlag())
                         || arg.equalsIgnoreCase(CmdArgs.INLINE_DATA.asFlag())) {
                     hasBody = true;
+                    this.bodyFlag = arg;
                 }
             }
 
@@ -97,10 +103,6 @@ public class CmdProcessor {
     void validateArgs() {
         boolean bodyFlagged = false;
         boolean verboseFlagged = false;
-
-        // if (!Arrays.stream(HttpMethod.values()).anyMatch(e -> e.toString().equalsIgnoreCase(cmdArgs[2]))) {
-        //     Utils.printErrAndExit("First argument should be a valid supported HTTP Method");
-        // }
 
         // Start at 2 because we already ensured the first two arguments were specified
         for (int i = 2; i < cmdArgs.length; i++) {
@@ -167,13 +169,13 @@ public class CmdProcessor {
     void processArgs() {
         HashMap<String, List<String>> mappedArgs = new HashMap<>();
 
-        for (int i = 3; i < cmdArgs.length; i++) {
+        for (int i = 2; i < cmdArgs.length; i++) {
             // Remove the quotes around argument values
             // String strippedArg = cmdArgs[i].replaceAll("'", "").toLowerCase();
 
             // If the argument is not our URL, we have to treat it acccordingly based on the
             // parameter
-            switch (cmdArgs[i]) {
+            switch (cmdArgs[i].toLowerCase()) {
                 case "-v":
                     mappedArgs.put(cmdArgs[i], List.of("true"));
                     break;
@@ -193,7 +195,7 @@ public class CmdProcessor {
 
                     // Increment so we skip over the next iteration, as we assume it was a value
                     i++;
-                    break;
+                    continue;
                 default:
                     throw new IllegalArgumentException();
             }
