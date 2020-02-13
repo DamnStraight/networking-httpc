@@ -162,7 +162,7 @@ public class CommandProcessor {
      */
     private void helpOutputHandler() {
         if (args.length >= 2) {
-            final Method method = Utils.parse(Method.class, args[2]);
+            final Method method = Utils.parse(Method.class, args[1]);
             Utils.printHelpAndExit(method);
         }
 
