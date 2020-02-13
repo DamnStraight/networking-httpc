@@ -3,6 +3,7 @@ import constants.Method;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.PrintWriter;
 import java.net.URL;
 
 import constants.Messages;;
@@ -73,5 +74,18 @@ public class Utils {
 
         // Technically unreachable
         return "";
+    }
+
+    public static void outputToFile(String fileName, String output) {
+        if (!fileName.contains(".txt"))
+            fileName += ".txt";
+
+        try (
+            PrintWriter writer = new PrintWriter(fileName); 
+        ) {
+            writer.println(output);
+        } catch (Exception e) {
+            System.out.println("Error writing to file: " + fileName);
+        }
     }
 }

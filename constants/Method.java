@@ -1,7 +1,7 @@
 package constants;
 
 public enum Method {
-    GET("get"), POST("post"), HELP("help");
+    GET("GET"), POST("POST"), HELP("HELP");
 
     private final String method;
 

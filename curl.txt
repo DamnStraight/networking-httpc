@@ -1,9 +1,6 @@
-http://httpbin.org/get?course=networking&assignment=1
-
-java Httpc get "http://httpbin.org/get?course=networking&assignment=1"
 java Httpc post "http://httpbin.org/post" -v -h "Content-type:application/json" -d "{^"Assignment^":1}"
 java Httpc post "http://httpbin.org/post" -v -h "Content-type:application/json" -f "input.txt"
 
+java Httpc get "https://httpbin.org/get?course=networking&assignment=1"
 java Httpc get "http://httpbin.org/status/418"
-
-java Httpc post https://httpbin.org/post -h Content-Type:application/json -d "{^"Assignment^": 1}"
+java Httpc post https://httpbin.org/post -h Content-Type:application/json -d "{\"Assignment\": 1}"

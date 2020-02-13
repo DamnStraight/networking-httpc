@@ -34,11 +34,6 @@ public class Request {
         this.path = path;
     }
 
-    public Request path(String path) {
-        this.path = path;
-        return this;
-    }
-
     public void insertHeader(final String header) {
         this.headers.add(header);
     }
@@ -93,36 +88,6 @@ public class Request {
 
     public void setOutputFile(String outputFile) {
         this.outputFile = outputFile;
-    }
-
-    public Request method(Method method) {
-        this.method = method;
-        return this;
-    }
-
-    public Request verbose(boolean verbose) {
-        this.verbose = verbose;
-        return this;
-    }
-
-    public Request url(String url) {
-        this.url = url;
-        return this;
-    }
-
-    public Request headers(ArrayList<String> headers) {
-        this.headers = headers;
-        return this;
-    }
-
-    public Request body(String body) {
-        this.body = body;
-        return this;
-    }
-
-    public Request outputFile(String outputFile) {
-        this.outputFile = outputFile;
-        return this;
     }
 
     @Override

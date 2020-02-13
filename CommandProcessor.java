@@ -94,9 +94,12 @@ public class CommandProcessor {
                     processHeader(args[++i]);
                     continue;
                 }
+            case OUTPUT_FILE:
+                if (isValidNextArg(i, args)) {
+                    this.request.setOutputFile(args[++i]);
+                    continue;
+                }
             default:
-                // Don't break
-                System.out.println("????");
                 Utils.printHelpAndExit();
             }
         }
@@ -139,6 +142,11 @@ public class CommandProcessor {
             case FILE_DATA:
                 if (isValidNextArg(i, args)) {
                     processFileInput(args[++i]);
+                    continue;
+                }
+            case OUTPUT_FILE:
+                if (isValidNextArg(i, args)) {
+                    this.request.setOutputFile(args[++i]);
                     continue;
                 }
             default:
@@ -194,9 +202,14 @@ public class CommandProcessor {
                 }
 
                 this.request.setPath(url.getPath() + queryParameters);
+            } else {
+                this.request.setPath("/");
             }
 
             this.request.setHost(url.getHost());
+            // this.request.setHost(
+            //     String.format("%s://%s", url.getProtocol(), url.getHost())
+            // );
             this.request.setUrl(maybeURL);
         } catch (Exception e) {
             // URL is bad
@@ -265,7 +278,7 @@ public class CommandProcessor {
             // If the argument is not in our allowed duplicates array, and its count is
             // greater than 1, throw an error
             if (!DUPLICATE_ARGUMENTS.contains(arg) && entry.getValue() > 1) {
-                System.out.println("Duplicate failed");
+                System.out.println("Duplicate arguments");
                 Utils.printHelpAndExit();
             }
         });
