@@ -6,4 +6,4 @@ java Httpc post "http://httpbin.org/post" -v -h "Content-type:application/json" 
 
 java Httpc get "http://httpbin.org/status/418"
 
-httpc post https://httpbin.org/post -h Content-Type:application/json -d "{^"Assignment^": 1}"
+java Httpc post https://httpbin.org/post -h Content-Type:application/json -d "{^"Assignment^": 1}"
